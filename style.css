@@ -15,6 +15,7 @@ body {
     overflow-x: hidden;
 }
 
+
 /* Gold corner bands with glitter */
 .corner-band {
     position: fixed;
@@ -117,7 +118,23 @@ body {
 
 @keyframes glitter {
     0%, 100% { opacity: 0; transform: scale(0.2); }
-    50% { opacity: 1; transform: scale(1.2); }
+    50% { opacity: var(--max-opacity, 1); transform: scale(1.2); }
+}
+
+/* Gold stars scattered across background */
+.gold-star {
+    position: fixed;
+    pointer-events: none;
+    z-index: 0;
+    color: #d4a017;
+    text-shadow: 0 0 4px rgba(255, 215, 0, 0.5);
+    animation: star-twinkle var(--star-duration) ease-in-out infinite var(--star-delay);
+    line-height: 1;
+}
+
+@keyframes star-twinkle {
+    0%, 100% { opacity: var(--star-min-opacity); transform: scale(0.8) rotate(0deg); }
+    50% { opacity: var(--star-max-opacity); transform: scale(1.1) rotate(15deg); }
 }
 
 header {
