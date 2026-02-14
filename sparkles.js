@@ -1,34 +1,51 @@
-// Add gold sparkle particles to each corner
+// Add glitter particles along each corner band
 document.addEventListener('DOMContentLoaded', function() {
-    const corners = [
-        { x: [5, 80], y: [5, 80] },     // top-left
-        { x: [920, 995], y: [5, 80] },   // top-right (% based)
-        { x: [5, 80], y: [920, 995] },   // bottom-left
-        { x: [920, 995], y: [920, 995] } // bottom-right
+    // Each band runs diagonally across its corner
+    // We place sparkles along the diagonal line where the band sits
+    const bands = [
+        // top-left: band goes from ~(0,70) to ~(70,0) diagonal
+        { startX: 0, startY: 90, endX: 90, endY: 0 },
+        // top-right: band goes from ~(window-70,0) to ~(window,70)
+        { startX: -90, startY: 0, endX: 0, endY: 90, fromRight: true },
+        // bottom-left: band goes from ~(0,window-70) to ~(70,window)
+        { startX: 0, startY: -90, endX: 90, endY: 0, fromBottom: true },
+        // bottom-right
+        { startX: -90, startY: 0, endX: 0, endY: -90, fromRight: true, fromBottom: true }
     ];
 
-    // Use viewport-based positioning
-    corners.forEach(function(corner) {
-        for (let i = 0; i < 12; i++) {
+    bands.forEach(function(band) {
+        for (let i = 0; i < 20; i++) {
             const sparkle = document.createElement('div');
             sparkle.className = 'sparkle';
 
-            // Random position within this corner zone (in vw/vh)
-            const xMin = corner.x[0] / 10;
-            const xMax = corner.x[1] / 10;
-            const yMin = corner.y[0] / 10;
-            const yMax = corner.y[1] / 10;
+            // Position along the band with some random spread
+            const t = Math.random();
+            const bandX = band.startX + t * (band.endX - band.startX);
+            const bandY = band.startY + t * (band.endY - band.startY);
 
-            const x = xMin + Math.random() * (xMax - xMin);
-            const y = yMin + Math.random() * (yMax - yMin);
+            // Add some random offset perpendicular to the band (spread)
+            const spread = (Math.random() - 0.5) * 20;
 
-            sparkle.style.left = x + 'vw';
-            sparkle.style.top = y + 'vh';
-            sparkle.style.setProperty('--duration', (1 + Math.random() * 2) + 's');
+            let finalX = bandX + spread;
+            let finalY = bandY + spread;
+
+            if (band.fromRight) {
+                sparkle.style.right = (-finalX) + 'px';
+            } else {
+                sparkle.style.left = finalX + 'px';
+            }
+
+            if (band.fromBottom) {
+                sparkle.style.bottom = (-finalY) + 'px';
+            } else {
+                sparkle.style.top = finalY + 'px';
+            }
+
+            sparkle.style.setProperty('--duration', (0.5 + Math.random() * 1.5) + 's');
             sparkle.style.setProperty('--delay', (Math.random() * 3) + 's');
 
             // Vary sizes
-            const size = 3 + Math.random() * 6;
+            const size = 2 + Math.random() * 5;
             sparkle.style.width = size + 'px';
             sparkle.style.height = size + 'px';
 
