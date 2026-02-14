@@ -15,56 +15,94 @@ body {
     overflow-x: hidden;
 }
 
-/* Gold sparkly stripe bands in corners */
-body::before,
-body::after {
-    content: '';
+/* Gold corner bands with sparkles */
+.corner-band {
     position: fixed;
-    width: 400px;
-    height: 400px;
     pointer-events: none;
     z-index: 999;
-    background:
-        repeating-linear-gradient(
-            135deg,
-            rgba(255, 215, 0, 0.7) 0px,
-            rgba(255, 215, 0, 0.7) 4px,
-            transparent 4px,
-            transparent 12px,
-            rgba(212, 160, 23, 0.5) 12px,
-            rgba(212, 160, 23, 0.5) 15px,
-            transparent 15px,
-            transparent 20px
-        );
-    -webkit-mask: linear-gradient(135deg, black 0%, transparent 60%);
-    mask: linear-gradient(135deg, black 0%, transparent 60%);
-    animation: shimmer 2s ease-in-out infinite alternate;
 }
 
-body::before {
+/* Top-left band */
+.corner-tl {
     top: 0;
     left: 0;
+    width: 250px;
+    height: 250px;
+    background: linear-gradient(
+        135deg,
+        rgba(255, 215, 0, 0.6) 0%,
+        rgba(212, 160, 23, 0.4) 8%,
+        transparent 16%
+    );
+    animation: glow 2s ease-in-out infinite alternate;
 }
 
-body::after {
+/* Top-right band */
+.corner-tr {
+    top: 0;
+    right: 0;
+    width: 250px;
+    height: 250px;
+    background: linear-gradient(
+        225deg,
+        rgba(255, 215, 0, 0.6) 0%,
+        rgba(212, 160, 23, 0.4) 8%,
+        transparent 16%
+    );
+    animation: glow 2s ease-in-out infinite alternate 0.5s;
+}
+
+/* Bottom-left band */
+.corner-bl {
+    bottom: 0;
+    left: 0;
+    width: 250px;
+    height: 250px;
+    background: linear-gradient(
+        45deg,
+        rgba(255, 215, 0, 0.6) 0%,
+        rgba(212, 160, 23, 0.4) 8%,
+        transparent 16%
+    );
+    animation: glow 2s ease-in-out infinite alternate 1s;
+}
+
+/* Bottom-right band */
+.corner-br {
     bottom: 0;
     right: 0;
-    transform: rotate(180deg);
+    width: 250px;
+    height: 250px;
+    background: linear-gradient(
+        315deg,
+        rgba(255, 215, 0, 0.6) 0%,
+        rgba(212, 160, 23, 0.4) 8%,
+        transparent 16%
+    );
+    animation: glow 2s ease-in-out infinite alternate 1.5s;
 }
 
-@keyframes shimmer {
-    0% {
-        opacity: 0.6;
-        filter: brightness(1);
-    }
-    50% {
-        opacity: 1;
-        filter: brightness(1.4);
-    }
-    100% {
-        opacity: 0.6;
-        filter: brightness(1);
-    }
+/* Sparkle particles */
+.sparkle {
+    position: fixed;
+    pointer-events: none;
+    z-index: 1000;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #ffd700;
+    box-shadow: 0 0 6px 2px rgba(255, 215, 0, 0.8), 0 0 12px 4px rgba(255, 215, 0, 0.4);
+    animation: twinkle var(--duration) ease-in-out infinite var(--delay);
+}
+
+@keyframes glow {
+    0% { opacity: 0.5; filter: brightness(0.9); }
+    100% { opacity: 1; filter: brightness(1.5); }
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0; transform: scale(0.3); }
+    50% { opacity: 1; transform: scale(1); }
 }
 
 header {
